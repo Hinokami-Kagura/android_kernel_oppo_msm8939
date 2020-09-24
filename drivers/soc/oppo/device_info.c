@@ -335,6 +335,17 @@ static void sub_mainboard_verify(struct devinfo_data *devinfo_data)
 				mainboard_info.manufacture = "UNSPECIFIED";
 			break;
 		}
+		case OPPO_15009: {		
+			if (( id1==0 )&&( id2==0 ))
+				hw_operator_name = OPERATOR_CHINA_MOBILE;
+			else if (( id1==1 )&&( id2==0 ))
+				hw_operator_name = OPERATOR_CHINA_UNICOM;
+			else if (( id1==0 )&&( id2==1 ))
+				hw_operator_name = OPERATOR_CHINA_TELECOM;
+			else
+				mainboard_info.manufacture = "UNSPECIFIED";
+			break;
+	}
 		default: {
 			sprintf(mainboard_info.manufacture,
 				"%d-%d", get_project(), get_Operator_Version());
