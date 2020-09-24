@@ -331,6 +331,16 @@ int bq24196_set_fastchg_current(struct opchg_charger *chip, int ifast_mA)
 {
     u8 value;
 
+/*huqiao@EXP.BasicDrv.Basic add for clone 15085*/
+	if(is_project(OPPO_14037) || is_project(OPPO_15057) || is_project(OPPO_15009) || is_project(OPPO_15037)|| is_project(OPPO_15085)){
+		if((!chip->batt_authen) && (ifast_mA > chip->non_standard_fastchg_current_ma))
+			ifast_mA = chip->non_standard_fastchg_current_ma;
+	}
+/*huqiao@EXP.BasicDrv.Basic add for clone 15085*/
+	if(is_project(OPPO_14037) || is_project(OPPO_14051) || is_project(OPPO_15057) || is_project(OPPO_15009) || is_project(OPPO_15037)|| is_project(OPPO_15085))
+
+		dev_dbg(chip->dev, "%s ibatmax:%d",__func__,ifast_mA);
+
 	if(ifast_mA < BQ24196_MIN_FAST_CURRENT_MA_ALLOWED){
 		if(ifast_mA > BQ24196_MAX_FAST_CURRENT_MA_20_PERCENT)
 			ifast_mA = BQ24196_MAX_FAST_CURRENT_MA_20_PERCENT;
@@ -590,7 +600,12 @@ int bq24196_set_input_chg_current(struct opchg_charger *chip, int iusbin_mA, boo
 int bq24196_set_float_voltage(struct opchg_charger *chip, int vfloat_mv)
 {
     u8 value;
-
+/*huqiao@EXP.BasicDrv.Basic add for clone 15085*/
+	if(is_project(OPPO_14037) || is_project(OPPO_15057) || is_project(OPPO_15009) || is_project(OPPO_15037)|| is_project(OPPO_15085)){
+		if((!chip->batt_authen) && (vfloat_mv > chip->non_standard_vfloat_mv))
+			vfloat_mv = chip->non_standard_vfloat_mv;
+	}
+	
 	value = (vfloat_mv - BQ24196_MIN_FLOAT_MV)/BQ24196_VFLOAT_STEP_MV;
 	value <<= REG04_BQ24196_CHARGING_VOL_LIMIT_SHIFT;
 	dev_dbg(chip->dev, "bq24196_set_float_voltage value=%d\n", value);
