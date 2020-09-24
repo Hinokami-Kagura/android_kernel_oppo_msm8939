@@ -46,6 +46,13 @@ config MACH_15022
 	help
 	  Support for the R7sf variant
 
+config MACH_15009
+	bool "A51f board"
+	select MACH_OPPO_MSM8939
+	select SND_SOC_TS4621
+	help
+	  Support for the A51f variant
+
 config MACH_15109
 	bool "F1f board"
 	select MACH_OPPO_MSM8939
