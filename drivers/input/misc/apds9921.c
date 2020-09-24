@@ -551,6 +551,8 @@ static int Lux_original(struct i2c_client *client, int als_data)
 		als_data = als_data * 3;
 	else if (is_project(OPPO_15109))
 		als_data = als_data * 3;
+	else if (is_project(OPPO_15009))
+		als_data = als_data * 3;
 
 	luxValue = ((als_data*APDS9921_DD_LUX_FACTOR*1000))/((apds9921_als_meas_rate_tb[data->als_res_index])*apds9921_als_gain_tb[data->als_gain_index]);
 
@@ -577,6 +579,8 @@ static int LuxCalculation(struct i2c_client *client, int clr_data, int als_data)
 	else if (is_project(OPPO_15022))
 		als_data = als_data * 3;
 	else if (is_project(OPPO_15109))
+		als_data = als_data * 3;
+	else if (is_project(OPPO_15009))
 		als_data = als_data * 3;
 
 	// Apply als calibration gain
