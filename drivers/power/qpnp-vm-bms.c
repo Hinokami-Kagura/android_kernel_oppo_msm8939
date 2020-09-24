@@ -3540,7 +3540,7 @@ static int set_battery_data(struct qpnp_bms_chip *chip)
 			return -EINVAL;
 	}
 #else
-	if (is_project(OPPO_15109)) {
+	if (is_project(OPPO_15109)||is_project(OPPO_15009)) {
 		rc = opchg_get_bq2022_manufacture_id();
 		if (rc < 0) {
 			pr_err("%s get bq2022 manu id fail\n", __func__);
@@ -3566,7 +3566,13 @@ static int set_battery_data(struct qpnp_bms_chip *chip)
 				pr_err("No available lg batterydata\n");
 				return -EINVAL;
 			}
-		}
+		} else if (rc == BATTERY_2420MAH_SONY) {
+			node = of_find_node_by_name(chip->spmi->dev.of_node,
+						"qcom,battery-data-sony");
+			if (!node) {
+				pr_err("No available sony batterydata\n");
+				return -EINVAL;
+			}
 	} else {
 		node = of_find_node_by_name(chip->spmi->dev.of_node,
 					"qcom,battery-data");
@@ -3968,7 +3974,7 @@ static int qpnp_vm_bms_probe(struct spmi_device *spmi)
 	}
 #else
 	if (rc == (-EPROBE_DEFER)) {
-		if (is_project(OPPO_15109)) {
+		if (is_project(OPPO_15109)||is_project(OPPO_15009) {
 			pr_err("Unable to read battery data %d\n", rc);
 			goto fail_init;
 		} else {
